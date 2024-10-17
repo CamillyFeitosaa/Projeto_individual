@@ -1,0 +1,63 @@
+<!doctype html> 
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tela de Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .form-container {
+          border: 1px solid #5ac7e9;
+          border-radius: 0.5rem;
+          padding: 2rem;
+          background-color: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-10 col-lg-5">
+                <div class="form-container">
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="inputEmail" placeholder="Digite o E-mail" required />
+                            <label for="inputEmail">E-mail</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Senha" required />
+                            <label for="inputPassword">Senha</label>
+                        </div>
+                        <button type="submit" class="w-100 btn btn-primary">Entrar</button>
+                        <p class="mt-3 text-center">Não possui uma conta? <a href="cadastro.html">Faça seu cadastro</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function handleLogin(event) {
+            event.preventDefault(); 
+            const email = document.getElementById('inputEmail').value;
+            const password = document.getElementById('inputPassword').value;
+        
+            // Recupera os usuários do localStorage
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+        
+            // Verifica se o usuário existe
+            const user = users.find(user => user.email === email && user.password === password);
+        
+            if (user) {
+                // Usuário encontrado e senha correta
+                localStorage.setItem("loggedUser", JSON.stringify(user));  // Armazena todos os dados do usuário (nome, email, senha)
+                window.location.href = 'tela_professor.html';  // Redireciona
+            } else {
+                // Usuário não encontrado ou senha incorreta
+                alert('E-mail ou senha incorretos.');
+            }
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
