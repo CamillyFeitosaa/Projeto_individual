@@ -9,12 +9,15 @@
         .container {
             margin-top: 20px;
         }
+        .btn-voltar {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Listar Turmas</h2>
+    <h2>Turmas Existentes</h2>
     <table class="table">
         <thead>
             <tr>
@@ -25,43 +28,57 @@
             </tr>
         </thead>
         <tbody id="turmasTable">
-            <!-- As turmas serão inseridas aqui via JavaScript -->
         </tbody>
     </table>
+    <button class="btn btn-secondary btn-voltar" id="btnVoltar">Voltar</button>
 </div>
 
 <script>
-// Simulação de turmas armazenadas
-let turmas = [
-    { id: 1, nome: 'Turma A', disciplina: 'Matemática', temAtividades: false },
-    { id: 2, nome: 'Turma B', disciplina: 'Português', temAtividades: true },
-    { id: 3, nome: 'Turma C', disciplina: 'História', temAtividades: false }
-];
-
-// Função para exibir as turmas
-function mostrarTurmas() {
-    const turmasTable = document.getElementById('turmasTable');
-    turmasTable.innerHTML = ''; // Limpa a tabela antes de adicionar
-
-    turmas.forEach(turma => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${turma.id}</td>
-            <td>${turma.nome}</td>
-            <td>${turma.disciplina}</td>
-            <td>
-                <button class="btn btn-danger" onclick="confirmarExclusao(${turma.id})">Excluir</button>
-            </td>
-        `;
-        turmasTable.appendChild(tr);
-    });
+// Função para carregar as turmas do localStorage
+function carregarTurmas() {
+    return JSON.parse(localStorage.getItem('turmas')) || [];
 }
 
-// Função de confirmação de exclusão
+// Função para salvar as turmas no localStorage
+function salvarTurmas(turmas) {
+    localStorage.setItem('turmas', JSON.stringify(turmas));
+}
+
+// Função para carregar atividades do localStorage
+function carregarAtividades() {
+    return JSON.parse(localStorage.getItem('atividades')) || {};
+}
+
+// Função para exibir as turmas na tabela
+function mostrarTurmas() {
+    const turmas = carregarTurmas();
+    const turmasTable = document.getElementById('turmasTable');
+    turmasTable.innerHTML = ''; 
+
+    if (turmas.length === 0) {
+        turmasTable.innerHTML = '<tr><td colspan="4" class="text-center">Nenhuma turma cadastrada</td></tr>';
+    } else {
+        turmas.forEach(turma => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${turma.id}</td>
+                <td>${turma.nome}</td>
+                <td>${turma.disciplina}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="confirmarExclusao(${turma.id})">Excluir</button>
+                </td>
+            `;
+            turmasTable.appendChild(tr);
+        });
+    }
+}
+
+// Função para confirmar exclusão
 function confirmarExclusao(turmaId) {
-    const turma = turmas.find(t => t.id === turmaId);
+    const atividades = carregarAtividades();
     
-    if (turma.temAtividades) {
+    // Verifica se a turma tem atividades cadastradas
+    if (atividades[turmaId] && atividades[turmaId].length > 0) {
         alert('Você não pode excluir uma turma com atividades cadastradas.');
     } else {
         const confirmacao = confirm('Tem certeza que deseja excluir a turma?');
@@ -71,14 +88,25 @@ function confirmarExclusao(turmaId) {
     }
 }
 
-// Função para excluir turma
+// Função para excluir a turma
 function excluirTurma(turmaId) {
+    let turmas = carregarTurmas();
     turmas = turmas.filter(turma => turma.id !== turmaId);
+    
+    turmas.forEach((turma, index) => {
+        turma.id = index + 1;
+    });
+
+    salvarTurmas(turmas);
     alert('Turma excluída com sucesso.');
-    mostrarTurmas(); // Atualiza a lista
+    mostrarTurmas();
 }
 
-// Inicializa a lista de turmas ao carregar a página
+// Voltar para a tela anterior
+document.getElementById('btnVoltar').addEventListener('click', function() {
+    window.location.href = 'tela_professor.html';
+});
+
 mostrarTurmas();
 </script>
 

@@ -58,17 +58,16 @@
 </div>
 
 <script>
-    // Voltar para a tela do professor
+
     document.getElementById('btnVoltar').addEventListener('click', function() {
-        window.location.href = 'tela_professor.html'; // Substitua pelo nome correto da tela do professor
+        window.location.href = 'tela_professor.html'; 
     });
 
     document.getElementById('turmaForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Impede o envio do formulário
+        event.preventDefault(); 
 
-        // Coletar os dados do formulário
         const novaTurma = {
-            id: Date.now(), // Usando timestamp como ID único
+            id: Date.now(), 
             nome: document.getElementById('nomeTurma').value,
             disciplina: document.getElementById('disciplina').value,
             anoSerie: document.getElementById('anoSerie').value,
@@ -80,13 +79,13 @@
             dataTermino: document.getElementById('dataTermino').value
         };
 
-        // Recupera as turmas existentes do localStorage
+
         const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
-        turmas.push(novaTurma); // Adiciona a nova turma
-        localStorage.setItem('turmas', JSON.stringify(turmas)); // Salva novamente no localStorage
+        turmas.push(novaTurma); 
+        localStorage.setItem('turmas', JSON.stringify(turmas)); 
 
         alert('Turma cadastrada com sucesso!');
-        window.location.href = 'listar_turma.html'; // Redireciona para a tela de listar turmas
+        window.location.href = 'listar_turma.html'; 
     });
 </script>
 

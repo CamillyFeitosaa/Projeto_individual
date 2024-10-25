@@ -20,33 +20,11 @@
 </div>
 
 <script>
-// Simulação de dados de turmas
-const turmas = [
-    {
-        id: 1,
-        nome: 'Turma A',
-        disciplina: 'Matemática',
-        anoSerie: '1º Ano',
-        turno: 'Manhã',
-        professor: 'Prof. João'
-    },
-    {
-        id: 2,
-        nome: 'Turma B',
-        disciplina: 'História',
-        anoSerie: '2º Ano',
-        turno: 'Tarde',
-        professor: 'Prof. Maria'
-    },
-    // Adicione mais turmas conforme necessário
-];
-
-// Obtém o ID da turma a partir da URL
 const urlParams = new URLSearchParams(window.location.search);
-const turmaId = parseInt(urlParams.get('id')); // Obtém o ID da turma
+const turmaId = parseInt(urlParams.get('id'));
 
-// Função para mostrar os detalhes da turma
 function mostrarDetalhesTurma() {
+    const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
     const turma = turmas.find(t => t.id === turmaId);
     const detalhesDiv = document.getElementById('turmaDetalhes');
 
@@ -57,18 +35,20 @@ function mostrarDetalhesTurma() {
             <p><strong>Ano/Série:</strong> ${turma.anoSerie}</p>
             <p><strong>Turno:</strong> ${turma.turno}</p>
             <p><strong>Professor Responsável:</strong> ${turma.professor}</p>
+            <p><strong>Número de Alunos:</strong> ${turma.numeroAlunos}</p>
+            <p><strong>Data de Início:</strong> ${turma.dataInicio}</p>
+            <p><strong>Data de Término:</strong> ${turma.dataTermino}</p>
+            <p><strong>Descrição/Observações:</strong> ${turma.descricao}</p>
         `;
     } else {
         detalhesDiv.innerHTML = '<p>Turma não encontrada.</p>';
     }
 }
 
-// Inicializa os detalhes da turma ao carregar a página
 mostrarDetalhesTurma();
 
-// Botão de voltar
 document.getElementById('btnVoltar').addEventListener('click', function() {
-    window.history.back(); // Retorna para a tela anterior
+    window.history.back();
 });
 </script>
 

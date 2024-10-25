@@ -15,7 +15,7 @@
 
 <div class="container">
     <h2>Atividades da Turma</h2>
-    <h4 id="nomeTurma"></h4> <!-- Aqui exibimos o nome da turma -->
+    <h4 id="nomeTurma"></h4> 
     <table class="table">
         <thead>
             <tr>
@@ -24,16 +24,15 @@
             </tr>
         </thead>
         <tbody id="atividadesTableBody">
-            <!-- As atividades serão inseridas aqui pelo JavaScript -->
         </tbody>
     </table>
     <button class="btn btn-secondary" id="btnVoltar">Voltar</button>
 </div>
 
 <script>
-// Função para listar as atividades da turma
+
 function listarAtividades(turmaId) {
-    // Exemplo de dados de atividades (substitua isso por dados do banco de dados)
+
     const atividades = [
         { turmaId: 1, numero: 1, descricao: 'Prova de Matemática' },
         { turmaId: 1, numero: 2, descricao: 'Trabalho de História' },
@@ -43,7 +42,7 @@ function listarAtividades(turmaId) {
     const tbody = document.getElementById('atividadesTableBody');
     const turma = atividades.filter(atividade => atividade.turmaId === turmaId);
 
-    tbody.innerHTML = ''; // Limpa o conteúdo existente
+    tbody.innerHTML = ''; 
 
     if (turma.length > 0) {
         turma.forEach(atividade => {
@@ -59,15 +58,15 @@ function listarAtividades(turmaId) {
     }
 }
 
-// Botão de voltar
+
 document.getElementById('btnVoltar').addEventListener('click', function() {
-    window.history.back(); // Retorna para a tela anterior
+    window.history.back(); 
 });
 
-// Recupera o ID da turma a partir da URL e lista as atividades
+
 const urlParams = new URLSearchParams(window.location.search);
 const turmaId = parseInt(urlParams.get('id'));
-document.getElementById('nomeTurma').innerText = 'Nome da Turma'; // Defina o nome da turma adequadamente
+document.getElementById('nomeTurma').innerText = 'Nome da Turma'; 
 listarAtividades(turmaId);
 </script>
 

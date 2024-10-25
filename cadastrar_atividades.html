@@ -16,17 +16,13 @@
 <div class="container">
     <h2>Atividades da Turma: <span id="turmaNome"></span></h2>
 
-    <!-- Seletor de turmas -->
     <div class="mb-3">
         <label for="selectTurma" class="form-label">Selecione a Turma</label>
         <select class="form-select" id="selectTurma">
-            <option value="1">Turma A</option>
-            <option value="2">Turma B</option>
-            <option value="3">Turma C</option>
+            <!-- As opções serão carregadas dinamicamente -->
         </select>
     </div>
 
-    <!-- Formulário para cadastrar nova atividade -->
     <form id="atividadeForm">
         <div class="mb-3">
             <label for="nomeAtividade" class="form-label">Nome da Atividade</label>
@@ -57,25 +53,42 @@
             </tr>
         </thead>
         <tbody id="atividadesTable">
-            <!-- As atividades serão inseridas aqui via JavaScript -->
         </tbody>
     </table>
     <button class="btn btn-secondary" id="btnVoltar">Voltar</button>
 </div>
 
 <script>
-// Simulação de atividades
-let atividades = {
-    1: [],
-    2: [],
-    3: []
-};
+let atividades = {};
+let turmaSelecionadaId = 1;
+let turmaSelecionadaNome = "";
 
-// Função para exibir as atividades da turma
+// Função para carregar turmas do localStorage
+function carregarTurmas() {
+    const turmas = JSON.parse(localStorage.getItem('turmas')) || [];
+    const selectTurma = document.getElementById('selectTurma');
+    selectTurma.innerHTML = ''; // Limpa as opções atuais
+
+    if (turmas.length === 0) {
+        selectTurma.innerHTML = '<option value="">Nenhuma turma cadastrada</option>';
+    } else {
+        turmas.forEach(turma => {
+            const option = document.createElement('option');
+            option.value = turma.id;
+            option.text = turma.nome;
+            selectTurma.appendChild(option);
+        });
+        turmaSelecionadaId = turmas[0].id; // Seleciona a primeira turma por padrão
+        turmaSelecionadaNome = turmas[0].nome;
+        mostrarAtividades();
+    }
+}
+
+// Função para exibir atividades
 function mostrarAtividades() {
-    document.getElementById('turmaNome').innerText = turmaSelecionadaNome; // Nome da turma
+    document.getElementById('turmaNome').innerText = turmaSelecionadaNome;
     const atividadesTable = document.getElementById('atividadesTable');
-    atividadesTable.innerHTML = ''; // Limpa a tabela antes de adicionar
+    atividadesTable.innerHTML = '';
 
     if (atividades[turmaSelecionadaId]) {
         atividades[turmaSelecionadaId].forEach(atividade => {
@@ -89,52 +102,49 @@ function mostrarAtividades() {
             atividadesTable.appendChild(tr);
         });
     } else {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="4">Nenhuma atividade registrada para esta turma.</td>`;
-        atividadesTable.appendChild(tr);
+        atividadesTable.innerHTML = '<tr><td colspan="4" class="text-center">Nenhuma atividade registrada para esta turma.</td></tr>';
     }
 }
 
-// Atualiza a turma selecionada ao mudar o seletor
+// Altera a turma selecionada e mostra suas atividades
 document.getElementById('selectTurma').addEventListener('change', function() {
-    turmaSelecionadaId = parseInt(this.value); // Atualiza o ID da turma selecionada
-    turmaSelecionadaNome = this.options[this.selectedIndex].text; // Atualiza o nome da turma
-    mostrarAtividades(); // Mostra as atividades da nova turma selecionada
+    turmaSelecionadaId = parseInt(this.value);
+    turmaSelecionadaNome = this.options[this.selectedIndex].text;
+    mostrarAtividades();
 });
 
-// Função para adicionar nova atividade
+// Adiciona uma nova atividade à turma selecionada
 document.getElementById('atividadeForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Impede o envio do formulário
+    event.preventDefault();
 
     const nome = document.getElementById('nomeAtividade').value;
     const descricao = document.getElementById('descricaoAtividade').value;
     const dataEntrega = document.getElementById('dataEntrega').value;
-    
-    // Cria um objeto para a nova atividade
+
     const novaAtividade = {
-        numero: (atividades[turmaSelecionadaId]?.length + 1) || 1, // Incrementa o número da atividade
+        numero: (atividades[turmaSelecionadaId]?.length + 1) || 1,
         nome: nome,
         descricao: descricao,
         dataEntrega: dataEntrega
     };
-    
-    // Se a turma não existir ainda no objeto atividades, inicializa o array
+
     if (!atividades[turmaSelecionadaId]) {
         atividades[turmaSelecionadaId] = [];
     }
-    
-    atividades[turmaSelecionadaId].push(novaAtividade); // Adiciona a nova atividade
-    mostrarAtividades(); // Atualiza a tabela
-    document.getElementById('atividadeForm').reset(); // Limpa o formulário
+
+    atividades[turmaSelecionadaId].push(novaAtividade);
+    mostrarAtividades();
+    document.getElementById('atividadeForm').reset();
 });
 
-// Inicializa a lista de atividades ao carregar a página
-mostrarAtividades();
-
-// Botão de voltar
+// Botão de voltar para a tela anterior
 document.getElementById('btnVoltar').addEventListener('click', function() {
-    window.history.back();
+    window.location.href = 'tela_professor.html';
 });
+
+// Carregar turmas ao carregar a página
+carregarTurmas();
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -13,32 +13,32 @@
             color: white; /* Cor do texto da saudação */
         }
         .navbar-nav .nav-link {
-            color: white; /* Cor dos links do botão */
+            color: white; 
         }
         .navbar-nav .nav-link:hover {
-            color: #e1e1e1; /* Cor do link ao passar o mouse */
+            color: #e1e1e1; 
         }
         .button-container {
             display: flex;
-            flex-direction: column; /* Coluna para os itens */
-            align-items: center; /* Centraliza horizontalmente */
-            justify-content: center; /* Centraliza verticalmente */
-            margin-top: 20px; /* Espaçamento acima da div */
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center; 
+            margin-top: 20px; 
         }
         .text-center {
-            text-align: center; /* Centraliza o texto */
+            text-align: center;
         }
         .btn-bar {
-            width: 300px; /* Largura das barras */
-            height: 70px; /* Altura das barras */
-            font-size: 18px; /* Tamanho da fonte */
-            background-color: #66b3ff; /* Azul claro */
-            color: white; /* Cor do texto */
-            margin: 10px 0; /* Espaçamento entre as barras */
-            border: none; /* Remove a borda */
+            width: 300px; 
+            height: 70px; 
+            font-size: 18px; 
+            background-color: #66b3ff; 
+            color: white; 
+            margin: 10px 0;
+            border: none; 
         }
         .btn-bar:hover {
-            background-color: #5ba8e0; /* Cor ao passar o mouse */
+            background-color: #5ba8e0; 
         }
     </style>
 </head>
@@ -51,9 +51,9 @@
     </div>
 </nav>
 
-<div class="container text-center"> <!-- Adicionei a classe text-center -->
-    <h2 class="mt-3">Área de Trabalho</h2> <!-- Título agora centralizado -->
-    <div class="button-container"> <!-- Container de barras -->
+<div class="container text-center"> 
+    <h2 class="mt-3">Área de Trabalho</h2> 
+    <div class="button-container"> 
         <button class="btn btn-bar" id="btnCadastrarTurma" onclick="window.location.href='cadastrar_turma.html'">Cadastrar Turma</button>
         <button class="btn btn-bar" id="btnListarTurma" onclick="window.location.href='listar_turma.html'">Listar Turma</button>
         <button class="btn btn-bar" id="btnCadastrarAtividades" onclick="window.location.href='cadastrar_atividades.html'">Cadastrar Atividades</button>
@@ -71,7 +71,6 @@
         window.location.href = 'login.html';
     }
 
-    // Adiciona funcionalidade aos botões
     document.getElementById('btnLogout').addEventListener('click', function() {
         localStorage.removeItem('loggedUser');
         window.location.href = 'login.html';

@@ -48,10 +48,8 @@
             const email = document.getElementById('inputEmail').value;
             const password = document.getElementById('inputPassword').value;
 
-            // Recupera os usuários do localStorage
             const users = JSON.parse(localStorage.getItem("users")) || [];
 
-            // Verifica se o e-mail já está cadastrado
             const userExists = users.some(user => user.email === email);
 
             if (userExists) {
@@ -59,12 +57,11 @@
                 return;
             }
 
-            // Adiciona o novo usuário (incluindo nome)
             users.push({ name, email, password });
             localStorage.setItem("users", JSON.stringify(users));
 
             alert('Usuário cadastrado com sucesso!');
-            window.location.href = 'login.html'; // Redireciona para a tela de login
+            window.location.href = 'login.html'; 
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

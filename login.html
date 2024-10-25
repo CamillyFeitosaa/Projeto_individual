@@ -41,18 +41,14 @@
             const email = document.getElementById('inputEmail').value;
             const password = document.getElementById('inputPassword').value;
         
-            // Recupera os usuários do localStorage
             const users = JSON.parse(localStorage.getItem("users")) || [];
         
-            // Verifica se o usuário existe
             const user = users.find(user => user.email === email && user.password === password);
         
             if (user) {
-                // Usuário encontrado e senha correta
-                localStorage.setItem("loggedUser", JSON.stringify(user));  // Armazena todos os dados do usuário (nome, email, senha)
-                window.location.href = 'tela_professor.html';  // Redireciona
+                localStorage.setItem("loggedUser", JSON.stringify(user));  
+                window.location.href = 'tela_professor.html'; 
             } else {
-                // Usuário não encontrado ou senha incorreta
                 alert('E-mail ou senha incorretos.');
             }
         }
